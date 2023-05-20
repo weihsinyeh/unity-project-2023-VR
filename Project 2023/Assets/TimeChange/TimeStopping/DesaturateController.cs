@@ -7,8 +7,8 @@ using Luminosity.IO;
 
 public class DesaturateController : MonoBehaviour {
 
-    [SerializeField] private UniversalRendererData rendererData = null;
-    [SerializeField] private string featureName = null;
+ //  [SerializeField] private UniversalRendererData rendererData = null;
+ //  [SerializeField] private string featureName = null;
     [SerializeField] private float transitionPeriod = 1;
 
 
@@ -16,8 +16,8 @@ public class DesaturateController : MonoBehaviour {
     private bool transitioning;
     private float startTime;
     private float fullscreenintensity;
-    ScriptableRendererFeature feature;
-    Material mat;
+  //  ScriptableRendererFeature feature;
+    public Material mat;
     public bool TimeIsStopped;
 
     [Space]
@@ -27,9 +27,9 @@ public class DesaturateController : MonoBehaviour {
     private void Start()
     {
         CanStop = false;
-        feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
-        var blitFeature = feature as BlitMaterialFeature;
-        mat = blitFeature.Material;
+  //      feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
+  //      var blitFeature = feature as BlitMaterialFeature;
+  //      mat = blitFeature.Material;
         mat.SetFloat("_Saturation", 1);
         mat.SetFloat("_FullScreenIntensity", 1);
     }

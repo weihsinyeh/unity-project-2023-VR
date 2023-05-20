@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using Luminosity.IO;
 
 public class TimeShiftingController : MonoBehaviour {
-    [SerializeField] private UniversalRendererData rendererData = null;
-    [SerializeField] private string featureName = null;
+  //  [SerializeField] private UniversalRendererData rendererData = null;
+  //  [SerializeField] private string featureName = null;
     [SerializeField] private float transitionPeriod = 1;
 
 
@@ -15,8 +15,8 @@ public class TimeShiftingController : MonoBehaviour {
 
     //private bool transitioning;
     private float startTime;
-    ScriptableRendererFeature feature;
-    Material mat;
+  //  ScriptableRendererFeature feature;
+    public Material mat;
 
     // public bool TimeIsStopped;
 
@@ -78,9 +78,9 @@ public class TimeShiftingController : MonoBehaviour {
         Physics.IgnoreLayerCollision(playerlayer, presentlayer, true);
         PastBool = 2;
 
-        feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
-        var blitFeature = feature as BlitMaterialFeature;
-        mat = blitFeature.Material;
+    //    feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
+    //    var blitFeature = feature as BlitMaterialFeature;
+    //    mat = blitFeature.Material;
         mat.SetTexture("_NoiseTex", NoiseTexture);
         baseColor = new Color(1, 1, 1, 1);
         CanChange = false;
