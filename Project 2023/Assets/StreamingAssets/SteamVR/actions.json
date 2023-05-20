@@ -81,6 +81,14 @@
       "name": "/actions/mixedreality/in/ExternalCamera",
       "type": "pose",
       "requirement": "optional"
+    },
+    {
+      "name": "/actions/TimeChange/in/TimeShift",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/TimeChange/in/TimeStop",
+      "type": "boolean"
     }
   ],
   "action_sets": [
@@ -99,6 +107,10 @@
     {
       "name": "/actions/mixedreality",
       "usage": "single"
+    },
+    {
+      "name": "/actions/TimeChange",
+      "usage": "leftright"
     }
   ],
   "default_bindings": [
@@ -169,7 +181,9 @@
       "/actions/default/out/Haptic": "Haptic",
       "/actions/platformer/in/Jump": "Jump",
       "/actions/default/in/SnapTurnLeft": "Snap Turn (Left)",
-      "/actions/default/in/SnapTurnRight": "Snap Turn (Right)"
+      "/actions/default/in/SnapTurnRight": "Snap Turn (Right)",
+      "/actions/TimeChange/in/TimeShift": "TimeShift",
+      "/actions/TimeChange/in/TimeStop": "TimeStop"
     }
   ]
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine;
-using Luminosity.IO;
+//using Luminosity.IO;
+using Valve.VR;
 
 [RequireComponent(typeof(Transform))]
 [RequireComponent(typeof(Rigidbody))]
@@ -12,6 +13,9 @@ using Luminosity.IO;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public SteamVR_Action_Vector2 VerHor_input;
+
+
     public float moveSpeed;
     public float airSpeedMult;
     public float runSpeedMult;
@@ -182,8 +186,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Input()
     {
-        verticalInput = InputManager.GetAxisRaw("Vertical");
-        horizontalInput = InputManager.GetAxisRaw("Horizontal");
+        verticalInput = VerHor_input.axis.y;
+        horizontalInput = VerHor_input.axis.x;
+
+
+        //verticalInput = InputManager.GetAxisRaw("Vertical");
+        //horizontalInput = InputManager.GetAxisRaw("Horizontal");
 
         if (verticalInput == 0 && horizontalInput == 0)
         {
@@ -195,145 +203,146 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            Debug.Log(VerHor_input);
             moving = true;
         }
 
-        if (sameButtonRunDash)
-        {
-            if (InputManager.GetButtonDown("Run"))
-            {
-                dashPressTime = Time.time;
-                if (onGround && !crouching)
-                    runPressTime = Time.time;
-            }
-            if (InputManager.GetButton("Run"))
-            {
-                if (onGround && !crouching && runPressTime > 0 && Time.time >= runPressTime + buttonPressTime)
-                {
-                    running = !running;
-                    Debug.Log("Player Movement: run " + running);
-                    if (sliding)
-                    {
-                        SlideReset();
-                        Crouch();
-                    }
-                    runPressTime = -1f;
-                    dashPressTime = -1f;
-                }
-            }
-            if (InputManager.GetButtonUp("Dash") && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
-            {
-                if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
-                {
-                    if (crouching)
-                    {
-                        CrouchReset();
-                    }
-                    if (sliding)
-                    {
-                        SlideReset();
-                    }
-                    Dash();
-                }
-            }
-        }
-        else
-        {
-            if (InputManager.GetButtonDown("Run") && onGround && moving && !crouching)
-            {
-                running = !running;
-                if (sliding)
-                {
-                    SlideReset();
-                    Crouch();
-                }
-            }
-
-            if (InputManager.GetButtonDown("Dash"))
-            {
-                if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
-                {
-                    if (crouching)
-                    {
-                        CrouchReset();
-                    }
-                    if (sliding)
-                    {
-                        SlideReset();
-                    }
-                    Dash();
-                }
-            }
-        }
-
-        if (InputManager.GetButtonDown("Jump"))
-        {
-            ignoreWall = detectWall;
-            if (crouching)
-            {
-                CrouchReset();
-            }
-            if (sliding)
-            {
-                SlideReset();
-            }
-        }
-        if (InputManager.GetButton("Jump") && !crouching && !sliding)
-        {
-            Jump();
-        }
-        if (InputManager.GetButtonUp("Jump"))
-        {
-            JumpReset();
-        }
-
-        if (InputManager.GetButtonDown("Crouch"))
-        {
-            if (onGround && Time.time > crouchStartTime + crouchCD)
-            {
-                if (crouching)
-                {
-                    CrouchReset();
-                }
-                else if (sliding)
-                {
-                    SlideReset();
-                }
-                else if (running)
-                {
-                    Slide();
-                }
-                else
-                {
-                    Crouch();
-                }
-            }
-        }
-
-        if (InputManager.GetButtonDown("Restart"))
-        {
-            Restart();
-        }
-
-        if (onGround)
-        {
-            ignoreWall = null;
-            if (!dashing)
-            {
-                canDash = true;
-            }
-        }
-        else
-        {
-            if (crouching && Time.time > crouchStartTime + crouchCD)
-            {
-                CrouchReset();
-            }
-            if (sliding && Time.time > crouchStartTime + crouchCD)
-            {
-                SlideReset();
-            }
-        }
+    //   if (sameButtonRunDash)
+    //   {
+    //       if (InputManager.GetButtonDown("Run"))
+    //       {
+    //           dashPressTime = Time.time;
+    //           if (onGround && !crouching)
+    //               runPressTime = Time.time;
+    //       }
+    //       if (InputManager.GetButton("Run"))
+    //       {
+    //           if (onGround && !crouching && runPressTime > 0 && Time.time >= runPressTime + buttonPressTime)
+    //           {
+    //               running = !running;
+    //               Debug.Log("Player Movement: run " + running);
+    //               if (sliding)
+    //               {
+    //                   SlideReset();
+    //                   Crouch();
+    //               }
+    //               runPressTime = -1f;
+    //               dashPressTime = -1f;
+    //           }
+    //       }
+    //       if (InputManager.GetButtonUp("Dash") && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
+    //       {
+    //           if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
+    //           {
+    //               if (crouching)
+    //               {
+    //                   CrouchReset();
+    //               }
+    //               if (sliding)
+    //               {
+    //                   SlideReset();
+    //               }
+    //               Dash();
+    //           }
+    //       }
+    //   }
+    //   else
+    //   {
+    //       if (InputManager.GetButtonDown("Run") && onGround && moving && !crouching)
+    //       {
+    //           running = !running;
+    //           if (sliding)
+    //           {
+    //               SlideReset();
+    //               Crouch();
+    //           }
+    //       }
+    //
+    //       if (InputManager.GetButtonDown("Dash"))
+    //       {
+    //           if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
+    //           {
+    //               if (crouching)
+    //               {
+    //                   CrouchReset();
+    //               }
+    //               if (sliding)
+    //               {
+    //                   SlideReset();
+    //               }
+    //               Dash();
+    //           }
+    //       }
+    //   }
+    //
+    //   if (InputManager.GetButtonDown("Jump"))
+    //   {
+    //       ignoreWall = detectWall;
+    //       if (crouching)
+    //       {
+    //           CrouchReset();
+    //       }
+    //       if (sliding)
+    //       {
+    //           SlideReset();
+    //       }
+    //   }
+    //   if (InputManager.GetButton("Jump") && !crouching && !sliding)
+    //   {
+    //       Jump();
+    //   }
+    //   if (InputManager.GetButtonUp("Jump"))
+    //   {
+    //       JumpReset();
+    //   }
+    //
+    //   if (InputManager.GetButtonDown("Crouch"))
+    //   {
+    //       if (onGround && Time.time > crouchStartTime + crouchCD)
+    //       {
+    //           if (crouching)
+    //           {
+    //               CrouchReset();
+    //           }
+    //           else if (sliding)
+    //           {
+    //               SlideReset();
+    //           }
+    //           else if (running)
+    //           {
+    //               Slide();
+    //           }
+    //           else
+    //           {
+    //               Crouch();
+    //           }
+    //       }
+    //   }
+    //
+    //   if (InputManager.GetButtonDown("Restart"))
+    //   {
+    //       Restart();
+    //   }
+    //
+    //   if (onGround)
+    //   {
+    //       ignoreWall = null;
+    //       if (!dashing)
+    //       {
+    //           canDash = true;
+    //       }
+    //   }
+    //   else
+    //   {
+    //       if (crouching && Time.time > crouchStartTime + crouchCD)
+    //       {
+    //           CrouchReset();
+    //       }
+    //       if (sliding && Time.time > crouchStartTime + crouchCD)
+    //       {
+    //           SlideReset();
+    //       }
+    //   }
     }
 
     void DetectAround()

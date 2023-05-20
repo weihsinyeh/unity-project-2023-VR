@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
-using Luminosity.IO;
+//using Luminosity.IO;
+using Valve.VR;
 
 public class TimeShiftingController : MonoBehaviour {
   //  [SerializeField] private UniversalRendererData rendererData = null;
@@ -11,7 +12,7 @@ public class TimeShiftingController : MonoBehaviour {
     [SerializeField] private float transitionPeriod = 1;
 
 
-
+    public SteamVR_Action_Boolean TimeShift;
 
     //private bool transitioning;
     private float startTime;
@@ -89,8 +90,10 @@ public class TimeShiftingController : MonoBehaviour {
     private void Update() {
         if (CanChange)
         {
-            if (InputManager.GetButtonDown("TimeShift"))
+            //if (InputManager.GetButtonDown("TimeShift"))
+            if(TimeShift.stateDown)
             {
+                Debug.Log("TimeShift");
                 StartPassThroughEffect();
             }
         }

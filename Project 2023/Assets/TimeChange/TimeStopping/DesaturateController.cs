@@ -3,12 +3,16 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
-using Luminosity.IO;
+//using Luminosity.IO;
+using Valve.VR;
 
 public class DesaturateController : MonoBehaviour {
 
- //  [SerializeField] private UniversalRendererData rendererData = null;
- //  [SerializeField] private string featureName = null;
+    public SteamVR_Action_Boolean TimeStop;
+
+
+    //  [SerializeField] private UniversalRendererData rendererData = null;
+    //  [SerializeField] private string featureName = null;
     [SerializeField] private float transitionPeriod = 1;
 
 
@@ -37,10 +41,12 @@ public class DesaturateController : MonoBehaviour {
     private void Update() {
         if (CanStop)
         {
-            if (InputManager.GetButtonDown("TimeStop"))
+            //if (InputManager.GetButtonDown("TimeStop"))
+            if (TimeStop.stateDown)
             {
                 if (!transitioning)
                 {
+                    Debug.Log("TimeStop");
                     StartTransition();
                     StopTime();
                 }

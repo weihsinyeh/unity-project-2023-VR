@@ -5,6 +5,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
 using Luminosity.IO;
+using Valve.VR;
 
 
 public class ItemDialogueShow : MonoBehaviour
