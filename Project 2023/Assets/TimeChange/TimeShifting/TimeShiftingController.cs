@@ -91,7 +91,7 @@ public class TimeShiftingController : MonoBehaviour {
         if (CanChange)
         {
             //if (InputManager.GetButtonDown("TimeShift"))
-            if(TimeShift.stateDown)
+            if(TimeShift.GetStateDown(SteamVR_Input_Sources.LeftHand))
             {
                 Debug.Log("TimeShift");
                 StartPassThroughEffect();

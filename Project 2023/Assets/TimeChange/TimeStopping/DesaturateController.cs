@@ -42,7 +42,7 @@ public class DesaturateController : MonoBehaviour {
         if (CanStop)
         {
             //if (InputManager.GetButtonDown("TimeStop"))
-            if (TimeStop.stateDown)
+            if (TimeStop.GetStateDown(SteamVR_Input_Sources.LeftHand))
             {
                 if (!transitioning)
                 {

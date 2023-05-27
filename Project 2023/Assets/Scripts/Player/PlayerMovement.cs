@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine;
-//using Luminosity.IO;
+using Luminosity.IO;
 using Valve.VR;
 
 [RequireComponent(typeof(Transform))]
@@ -14,7 +14,9 @@ using Valve.VR;
 public class PlayerMovement : MonoBehaviour
 {
     public SteamVR_Action_Vector2 VerHor_input;
-
+    public SteamVR_Action_Boolean jumpVR;
+    public SteamVR_Action_Boolean dashVR;
+    public SteamVR_Action_Boolean crouchVR;
 
     public float moveSpeed;
     public float airSpeedMult;
@@ -186,17 +188,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Input()
     {
-        Vector2 VerHor = VerHor_input.GetAxis(SteamVR_Input_Sources.LeftHand);
-        verticalInput = VerHor.y;
-        horizontalInput = VerHor.x;
-        Debug.Log("Move"+VerHor);
+       Vector2 VerHor = (VerHor_input.GetAxis(SteamVR_Input_Sources.LeftHand)).normalized;
+       verticalInput = VerHor.y; 
+       horizontalInput = VerHor.x;
+       Debug.Log("Move"+VerHor);
 
-        //verticalInput = InputManager.GetAxisRaw("Vertical");
-        //horizontalInput = InputManager.GetAxisRaw("Horizontal");
+       // verticalInput = InputManager.GetAxisRaw("Vertical");
+       // horizontalInput = InputManager.GetAxisRaw("Horizontal");
 
         if (verticalInput == 0 && horizontalInput == 0)
         {
-                        Debug.Log("False:"+VerHor);
+            Debug.Log("False:"+VerHor);
             moving = false;
             if (sliding)
             {
@@ -209,142 +211,142 @@ public class PlayerMovement : MonoBehaviour
             moving = true;
         }
 
-    //   if (sameButtonRunDash)
-    //   {
-    //       if (InputManager.GetButtonDown("Run"))
-    //       {
-    //           dashPressTime = Time.time;
-    //           if (onGround && !crouching)
-    //               runPressTime = Time.time;
-    //       }
-    //       if (InputManager.GetButton("Run"))
-    //       {
-    //           if (onGround && !crouching && runPressTime > 0 && Time.time >= runPressTime + buttonPressTime)
-    //           {
-    //               running = !running;
-    //               Debug.Log("Player Movement: run " + running);
-    //               if (sliding)
-    //               {
-    //                   SlideReset();
-    //                   Crouch();
-    //               }
-    //               runPressTime = -1f;
-    //               dashPressTime = -1f;
-    //           }
-    //       }
-    //       if (InputManager.GetButtonUp("Dash") && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
-    //       {
-    //           if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
-    //           {
-    //               if (crouching)
-    //               {
-    //                   CrouchReset();
-    //               }
-    //               if (sliding)
-    //               {
-    //                   SlideReset();
-    //               }
-    //               Dash();
-    //           }
-    //       }
-    //   }
-    //   else
-    //   {
-    //       if (InputManager.GetButtonDown("Run") && onGround && moving && !crouching)
-    //       {
-    //           running = !running;
-    //           if (sliding)
-    //           {
-    //               SlideReset();
-    //               Crouch();
-    //           }
-    //       }
-    //
-    //       if (InputManager.GetButtonDown("Dash"))
-    //       {
-    //           if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
-    //           {
-    //               if (crouching)
-    //               {
-    //                   CrouchReset();
-    //               }
-    //               if (sliding)
-    //               {
-    //                   SlideReset();
-    //               }
-    //               Dash();
-    //           }
-    //       }
-    //   }
-    //
-    //   if (InputManager.GetButtonDown("Jump"))
-    //   {
-    //       ignoreWall = detectWall;
-    //       if (crouching)
-    //       {
-    //           CrouchReset();
-    //       }
-    //       if (sliding)
-    //       {
-    //           SlideReset();
-    //       }
-    //   }
-    //   if (InputManager.GetButton("Jump") && !crouching && !sliding)
-    //   {
-    //       Jump();
-    //   }
-    //   if (InputManager.GetButtonUp("Jump"))
-    //   {
-    //       JumpReset();
-    //   }
-    //
-    //   if (InputManager.GetButtonDown("Crouch"))
-    //   {
-    //       if (onGround && Time.time > crouchStartTime + crouchCD)
-    //       {
-    //           if (crouching)
-    //           {
-    //               CrouchReset();
-    //           }
-    //           else if (sliding)
-    //           {
-    //               SlideReset();
-    //           }
-    //           else if (running)
-    //           {
-    //               Slide();
-    //           }
-    //           else
-    //           {
-    //               Crouch();
-    //           }
-    //       }
-    //   }
-    //
-    //   if (InputManager.GetButtonDown("Restart"))
-    //   {
-    //       Restart();
-    //   }
-    //
-    //   if (onGround)
-    //   {
-    //       ignoreWall = null;
-    //       if (!dashing)
-    //       {
-    //           canDash = true;
-    //       }
-    //   }
-    //   else
-    //   {
-    //       if (crouching && Time.time > crouchStartTime + crouchCD)
-    //       {
-    //           CrouchReset();
-    //       }
-    //       if (sliding && Time.time > crouchStartTime + crouchCD)
-    //       {
-    //           SlideReset();
-    //       }
-    //   }
+             if (sameButtonRunDash)
+             {
+                 if (dashVR.GetStateDown(SteamVR_Input_Sources.LeftHand))  // (InputManager.GetButtonDown("Run"))
+                 {
+                     dashPressTime = Time.time;
+                     if (onGround && !crouching)
+                         runPressTime = Time.time;
+                 }
+                 if (dashVR.GetState(SteamVR_Input_Sources.LeftHand)) // (InputManager.GetButton("Run"))
+                 {
+                     if (onGround && !crouching && runPressTime > 0 && Time.time >= runPressTime + buttonPressTime)
+                     {
+                         running = !running;
+                         Debug.Log("Player Movement: run " + running);
+                         if (sliding)
+                         {
+                             SlideReset();
+                             Crouch();
+                         }
+                         runPressTime = -1f;
+                         dashPressTime = -1f;
+                     }
+                 }
+                 if (dashVR.GetStateUp(SteamVR_Input_Sources.LeftHand) && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)   // (InputManager.GetButtonUp("Dash") && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
+                 {
+                     if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
+                     {
+                         if (crouching)
+                         {
+                             CrouchReset();
+                         }
+                         if (sliding)
+                         {
+                             SlideReset();
+                         }
+                         Dash();
+                     }
+                 }
+             }
+             else
+             {
+                 if (dashVR.GetStateDown(SteamVR_Input_Sources.LeftHand) && onGround && moving && !crouching) // InputManager.GetButtonDown("Run")
+                 {
+                     running = !running;
+                     if (sliding)
+                     {
+                         SlideReset();
+                         Crouch();
+                     }
+                 }
+          
+                 if (dashVR.GetStateDown(SteamVR_Input_Sources.LeftHand)) // InputManager.GetButtonDown("Dash")
+                 {
+                     if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
+                     {
+                         if (crouching)
+                         {
+                             CrouchReset();
+                         }
+                         if (sliding)
+                         {
+                             SlideReset();
+                         }
+                         Dash();
+                     }
+                 }
+             }
+          
+        if (jumpVR.GetStateDown(SteamVR_Input_Sources.LeftHand))  // (InputManager.GetButtonDown("Jump"))
+             {
+                 ignoreWall = detectWall;
+                 if (crouching)
+                 {
+                     CrouchReset();
+                 }
+                 if (sliding)
+                 {
+                     SlideReset();
+                 }
+             }
+             if (jumpVR.GetState(SteamVR_Input_Sources.LeftHand) && !crouching && !sliding)  // (InputManager.GetButton("Jump") && !crouching && !sliding)
+             {
+                 Jump();
+             }
+             if (jumpVR.GetStateUp(SteamVR_Input_Sources.LeftHand))// (InputManager.GetButtonUp("Jump"))
+             {
+                 JumpReset();
+             }
+          
+             if (crouchVR.GetState(SteamVR_Input_Sources.LeftHand)) // InputManager.GetButtonDown("Crouch")
+             {
+                 if (onGround && Time.time > crouchStartTime + crouchCD)
+                 {
+                     if (crouching)
+                     {
+                         CrouchReset();
+                     }
+                     else if (sliding)
+                     {
+                         SlideReset();
+                     }
+                     else if (running)
+                     {
+                         Slide();
+                     }
+                     else
+                     {
+                         Crouch();
+                     }
+                 }
+             }
+          
+        //   if (InputManager.GetButtonDown("Restart"))
+        //   {
+        //       Restart();
+        //   }
+        //
+             if (onGround)
+             {
+                 ignoreWall = null;
+                 if (!dashing)
+                 {
+                     canDash = true;
+                 }
+             }
+             else
+             {
+                 if (crouching && Time.time > crouchStartTime + crouchCD)
+                 {
+                     CrouchReset();
+                 }
+                 if (sliding && Time.time > crouchStartTime + crouchCD)
+                 {
+                     SlideReset();
+                 }
+             }
     }
 
     void DetectAround()
