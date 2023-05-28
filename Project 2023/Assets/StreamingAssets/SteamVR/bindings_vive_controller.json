@@ -4,6 +4,10 @@
    "app_key" : "application.generated.unity.project2023.exe",
    "bindings" : {
       "/actions/buggy" : {
+         "chords" : [],
+         "haptics" : [],
+         "poses" : [],
+         "skeleton" : [],
          "sources" : [
             {
                "inputs" : {
@@ -242,29 +246,57 @@
                },
                "mode" : "trigger",
                "path" : "/user/hand/right/input/trigger"
-            },
-            {
-               "inputs" : {},
-               "mode" : "none",
-               "path" : "/user/hand/left/input/skeleton/left"
-            },
-            {
-               "inputs" : {},
-               "mode" : "none",
-               "path" : "/user/hand/right/input/skeleton/left"
-            },
+            }
+         ]
+      },
+      "/actions/movement" : {
+         "sources" : [
             {
                "inputs" : {
+                  "click" : {
+                     "output" : "/actions/movement/in/jump"
+                  },
                   "position" : {
-                     "output" : "/actions/default/in/touchpadtouch"
+                     "output" : "/actions/movement/in/move"
                   }
                },
                "mode" : "trackpad",
                "path" : "/user/hand/left/input/trackpad"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/movement/in/dash"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/application_menu"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/movement/in/crouch"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/system"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/movement/in/crouch"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/grip"
             }
          ]
       },
       "/actions/platformer" : {
+         "chords" : [],
+         "haptics" : [],
+         "poses" : [],
+         "skeleton" : [],
          "sources" : [
             {
                "inputs" : {
@@ -305,20 +337,15 @@
          ]
       },
       "/actions/timechange" : {
+         "chords" : [],
+         "haptics" : [],
+         "poses" : [],
+         "skeleton" : [],
          "sources" : [
             {
                "inputs" : {
                   "click" : {
                      "output" : "/actions/timechange/in/timeshift"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/left/input/grip"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/timechange/in/timestop"
                   }
                },
                "mode" : "trigger",

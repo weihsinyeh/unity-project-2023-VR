@@ -188,17 +188,20 @@ public class PlayerMovement : MonoBehaviour
 
     void Input()
     {
-       Vector2 VerHor = (VerHor_input.GetAxis(SteamVR_Input_Sources.LeftHand)).normalized;
-       verticalInput = VerHor.y; 
-       horizontalInput = VerHor.x;
-       Debug.Log("Move"+VerHor);
+       Vector2 VerHor = VerHor_input.GetAxis(SteamVR_Input_Sources.LeftHand);
+
+        verticalInput = (VerHor.y >= 0.5f) ? 1 : 0 ;
+        verticalInput = (VerHor.y <= -0.5f) ? -1 : verticalInput;
+        horizontalInput = (VerHor.x >= 0.5f) ? 1 : 0;
+        horizontalInput = (VerHor.x <= -0.5f) ? -1 : horizontalInput;
+        //Debug.Log("Move"+VerHor);
 
        // verticalInput = InputManager.GetAxisRaw("Vertical");
        // horizontalInput = InputManager.GetAxisRaw("Horizontal");
 
         if (verticalInput == 0 && horizontalInput == 0)
         {
-            Debug.Log("False:"+VerHor);
+          //  Debug.Log("False:"+VerHor);
             moving = false;
             if (sliding)
             {
@@ -207,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("True:"+VerHor);
+          //  Debug.Log("True:"+VerHor);
             moving = true;
         }
 

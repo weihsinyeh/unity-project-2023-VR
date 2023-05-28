@@ -14,6 +14,7 @@ public class PlayerCam : MonoBehaviour
     public float distanceSpeed;
 
     public GameObject crosshair;
+    public GameObject playerVR;
 
     float cameraHeight;
     float cameraDistance;
@@ -94,29 +95,30 @@ public class PlayerCam : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
-
     }
 
     void MouseControl()
     {
         if (!InputManager.GetButton("Slash") && !PlayerMovement.isTransport)
         {
-            float deltaTime = (Time.deltaTime < 0.1f) ? Time.deltaTime : 0.1f;
-            float mouseX = InputManager.GetAxisRaw("Mouse X") * deltaTime * xSensitivity;
-            float mouseY = InputManager.GetAxisRaw("Mouse Y") * deltaTime * ySensitivity;
-            var rotation = new Vector2(-mouseY, mouseX);
-            var targetEuler = TargetRotation.eulerAngles + (Vector3)rotation  ;
-            xRotation = xRotation - mouseY; //(pitch)
-            yRotation = yRotation + mouseX; //(yaw)
-            if(xRotation > 180.0f) xRotation -= 360.0f;
-            if(targetEuler.x > 180.0f) targetEuler.x -= 360.0f;
-            targetEuler.x = Mathf.Clamp(targetEuler.x, -75.0f, 75.0f);
-            xRotation = Mathf.Clamp(xRotation, -75f, 75f);
-            TargetRotation = Quaternion.Euler(targetEuler);
-            transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotation, deltaTime* 20.0f);
+            // float deltaTime = (Time.deltaTime < 0.1f) ? Time.deltaTime : 0.1f;
+            // float mouseX = InputManager.GetAxisRaw("Mouse X") * deltaTime * xSensitivity;
+            // float mouseY = InputManager.GetAxisRaw("Mouse Y") * deltaTime * ySensitivity;
+            // var rotation = new Vector2(-mouseY, mouseX);
+            // var targetEuler = TargetRotation.eulerAngles + (Vector3)rotation  ;
+            // xRotation = xRotation - mouseY; //(pitch)
+            // yRotation = yRotation + mouseX; //(yaw)
+            // if(xRotation > 180.0f) xRotation -= 360.0f;
+            // if(targetEuler.x > 180.0f) targetEuler.x -= 360.0f;
+            // targetEuler.x = Mathf.Clamp(targetEuler.x, -75.0f, 75.0f);
+            // xRotation = Mathf.Clamp(xRotation, -75f, 75f);
+            // TargetRotation = Quaternion.Euler(targetEuler);
+            // transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotation, deltaTime* 20.0f);
             PlayerMovement.onWall = false;
             if (!PlayerMovement.onWall)
-                tf.rotation = Quaternion.Euler(tf.rotation.eulerAngles.x, yRotation, tf.rotation.eulerAngles.z); //人物的rotation
+            { tf.rotation = Quaternion.Euler(tf.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, tf.rotation.eulerAngles.z); //人物的rotation  yRotation
+                Debug.Log("CameraControl");
+            }
         }
     }
 
@@ -168,6 +170,7 @@ public class PlayerCam : MonoBehaviour
             }
             UpdateCurrLoc(distance, height);
             transform.localPosition = tf.localPosition - transform.forward * currDistance + Vector3.up * currHeight;
+        //    cameraRig.transform.localPosition = transform.localPosition;
         }
         else if (state == 1) //第一人稱
         {
@@ -183,6 +186,7 @@ public class PlayerCam : MonoBehaviour
                 }
                 UpdateCurrLoc(distance, cameraHeight);
                 transform.localPosition = tf.localPosition + tf.forward * currDistance + tf.up * currHeight;
+                playerVR.transform.localPosition = tf.localPosition;
             }
             else
             {

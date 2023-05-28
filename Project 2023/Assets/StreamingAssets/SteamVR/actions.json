@@ -50,10 +50,6 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/TouchPadTouch",
-      "type": "vector2"
-    },
-    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -93,6 +89,22 @@
     {
       "name": "/actions/TimeChange/in/TimeStop",
       "type": "boolean"
+    },
+    {
+      "name": "/actions/Movement/in/Move",
+      "type": "vector2"
+    },
+    {
+      "name": "/actions/Movement/in/Jump",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/Movement/in/Dash",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/Movement/in/Crouch",
+      "type": "boolean"
     }
   ],
   "action_sets": [
@@ -115,6 +127,10 @@
     {
       "name": "/actions/TimeChange",
       "usage": "leftright"
+    },
+    {
+      "name": "/actions/Movement",
+      "usage": "single"
     }
   ],
   "default_bindings": [
@@ -187,7 +203,11 @@
       "/actions/default/in/SnapTurnLeft": "Snap Turn (Left)",
       "/actions/default/in/SnapTurnRight": "Snap Turn (Right)",
       "/actions/TimeChange/in/TimeShift": "TimeShift",
-      "/actions/TimeChange/in/TimeStop": "TimeStop"
+      "/actions/TimeChange/in/TimeStop": "TimeStop",
+      "/actions/Movement/in/Move": "Move",
+      "/actions/Movement/in/Jump": "Jump",
+      "/actions/Movement/in/Dash": "Dash",
+      "/actions/Movement/in/Crouch": "Crouch"
     }
   ]
 }
