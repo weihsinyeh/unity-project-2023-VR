@@ -5,9 +5,13 @@ using Luminosity.IO;
 using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
+using Valve.VR;
+using Valve.VR.InteractionSystem;
+
 
 public class EnableTime : MonoBehaviour
 {
+    private Interactable interactable;
     private TimeShiftingController timeShiftingController;
     private DesaturateController desaturateController;
     public AudioManager audioManager;
@@ -24,12 +28,17 @@ public class EnableTime : MonoBehaviour
 
     private TMP_Text Canvas_text;
 
+    private bool Picked = false;
+
     // Start is called before the first frame update
     void Start()
     {
         desaturateController = GameObject.FindGameObjectWithTag("TimeManager").GetComponent<DesaturateController>();
         timeShiftingController = GameObject.FindGameObjectWithTag("TimeManager").GetComponent<TimeShiftingController>();
         Canvas_text = PickUpCanvas.GetComponentInChildren<TMP_Text>();
+
+
+        interactable = GetComponent<Interactable>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,17 +55,37 @@ public class EnableTime : MonoBehaviour
     {
         if (other.gameObject.layer == 3)
         {
-            if (InputManager.GetButtonDown("Pick"))
+            //  if (InputManager.GetButtonDown("Pick"))
+            //  {
+            //      audioManager.PlayAudio("Pick");
+            //      desaturateController.CanStop = true;
+            //      timeShiftingController.CanChange = true;
+            //      IDS.SetItemDialogue(Name);
+            //      PanelFadeOut();
+            //
+            //      IDS.show = true;
+            //      this.gameObject.SetActive(false);
+            //  }
+            if (Picked)
             {
                 audioManager.PlayAudio("Pick");
                 desaturateController.CanStop = true;
                 timeShiftingController.CanChange = true;
-                IDS.SetItemDialogue(Name);
                 PanelFadeOut();
-     
-                IDS.show = true;
-                this.gameObject.SetActive(false);
+                Debug.Log("Pick");
+                Destroy(this.gameObject);
+
+
+
+              //  IDS.SetItemDialogue(Name);
+              //  PanelFadeOut();
+              //  IDS.show = true;
+              //
+              //  Debug.Log("Pick");
+              //  Destroy(this.gameObject);
             }
+
+
         }
     }
     private void OnTriggerExit(Collider other)
@@ -74,6 +103,26 @@ public class EnableTime : MonoBehaviour
     {
         PickUpCanvas.alpha = 1f;
         PickUpCanvas.DOFade(0f, fadeTime);
+    }
+
+    private void HandHoverUpdate(Hand hand)
+    {
+        GrabTypes grabType = hand.GetGrabStarting();
+        // bool isGrabEnding = hand.IsGrabEnding(gameObject);
+
+
+        if (interactable.attachedToHand == null && grabType !=GrabTypes.None)
+        {
+            Picked = true;
+          //  hand.AttachObject(gameObject, grabType);
+          //  hand.HoverLock(interactable);
+          //  hand.HideGrabHint();
+        }
+        //else if (isGrabEnding)
+        //{
+        //    hand.DetachObject(gameObject);
+        //    hand.HoverUnlock(interactable);
+        //}
     }
 
 }

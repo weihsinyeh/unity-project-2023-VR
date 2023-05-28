@@ -15,6 +15,7 @@ public class PlayerCam : MonoBehaviour
 
     public GameObject crosshair;
     public GameObject playerVR;
+    public Transform headpoint;
 
     float cameraHeight;
     float cameraDistance;
@@ -40,7 +41,7 @@ public class PlayerCam : MonoBehaviour
         }
         else if (state == 1)
         {
-            cameraDistance = 0;//0.3f;
+            cameraDistance = 0; //0.3f;
         }
         currHeight = cameraHeight;
         currDistance = cameraDistance;
@@ -114,10 +115,12 @@ public class PlayerCam : MonoBehaviour
             // xRotation = Mathf.Clamp(xRotation, -75f, 75f);
             // TargetRotation = Quaternion.Euler(targetEuler);
             // transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotation, deltaTime* 20.0f);
+
+
             PlayerMovement.onWall = false;
             if (!PlayerMovement.onWall)
             { tf.rotation = Quaternion.Euler(tf.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, tf.rotation.eulerAngles.z); //人物的rotation  yRotation
-                Debug.Log("CameraControl");
+               // Debug.Log("CameraControl");
             }
         }
     }
@@ -155,24 +158,24 @@ public class PlayerCam : MonoBehaviour
             }
         };
 
-        if (state == 0) //第三人稱
-        {
-            float distance = cameraDistance;
-            float height = cameraHeight;
-            if (PlayerMovement.sliding)
-            {
-                distance += body.GetComponent<CapsuleCollider>().height;
-                height *= 0.5f;
-            }
-            else if (PlayerMovement.crouching)
-            {
-                height *= 0.5f;
-            }
-            UpdateCurrLoc(distance, height);
-            transform.localPosition = tf.localPosition - transform.forward * currDistance + Vector3.up * currHeight;
-        //    cameraRig.transform.localPosition = transform.localPosition;
-        }
-        else if (state == 1) //第一人稱
+        //if (state == 0) //第三人稱
+        //{
+        //    float distance = cameraDistance;
+        //    float height = cameraHeight;
+        //    if (PlayerMovement.sliding)
+        //    {
+        //        distance += body.GetComponent<CapsuleCollider>().height;
+        //        height *= 0.5f;
+        //    }
+        //    else if (PlayerMovement.crouching)
+        //    {
+        //        height *= 0.5f;
+        //    }
+        //    UpdateCurrLoc(distance, height);
+        //    transform.localPosition = tf.localPosition - transform.forward * currDistance + Vector3.up * currHeight;
+        ////    cameraRig.transform.localPosition = transform.localPosition;
+        //}
+        if (state == 1) //第一人稱
         {
             //只有在未傳送狀態下才會在這裡移動相機(Update)，其他都在PlayerMoverment.cs transport傳送(雖然那裏是LateUpdate)
             if (!PlayerMovement.isTransport)
@@ -184,7 +187,7 @@ public class PlayerCam : MonoBehaviour
                 {
                     distance *= 2f;
                 }
-                UpdateCurrLoc(distance, cameraHeight);
+                UpdateCurrLoc(distance, cameraHeight); //headpoint.localPosition;
                 transform.localPosition = tf.localPosition + tf.forward * currDistance + tf.up * currHeight;
                 playerVR.transform.localPosition = tf.localPosition;
             }

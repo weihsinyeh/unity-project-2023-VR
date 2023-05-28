@@ -280,15 +280,6 @@
                },
                "mode" : "button",
                "path" : "/user/hand/left/input/system"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/movement/in/crouch"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/left/input/grip"
             }
          ]
       },
@@ -350,6 +341,15 @@
                },
                "mode" : "trigger",
                "path" : "/user/hand/left/input/trigger"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/timechange/in/timestop"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/grip"
             }
          ]
       }
