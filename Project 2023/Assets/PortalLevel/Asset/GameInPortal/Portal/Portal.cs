@@ -25,6 +25,7 @@ public class Portal : MonoBehaviour {
 
     void Awake () {
         playerCam = Camera.main;
+        Debug.Log(playerCam);
         portalCam = GetComponentInChildren<Camera> ();
         portalCam.enabled = false;
         portalCam.cullingMask = playerCam.cullingMask;

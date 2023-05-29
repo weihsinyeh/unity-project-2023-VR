@@ -4,9 +4,13 @@ using UnityEngine;
 using Luminosity.IO;
 using UnityEngine.UI;
 using TMPro;
+using Valve.VR;
+
 [RequireComponent(typeof(PortalCamera))]
 public class PortalPlacement : MonoBehaviour
 {
+
+    public SteamVR_Action_Boolean PortalInVR;
     [SerializeField]
     private PortalPair portals;
 
@@ -34,7 +38,7 @@ public class PortalPlacement : MonoBehaviour
     }
     private void Update()
     {
-        if(InputManager.GetButtonDown("PortalIn") && portalInNum > 0)
+        if(PortalInVR.GetStateDown(SteamVR_Input_Sources.Any) && portalInNum > 0)//InputManager.GetButtonDown("PortalIn")
         {
             FirePortal(0, transform.position, transform.forward, 500.0f);
             if(wasPlaced){

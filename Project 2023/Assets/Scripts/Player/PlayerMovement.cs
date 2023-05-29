@@ -216,13 +216,13 @@ public class PlayerMovement : MonoBehaviour
 
              if (sameButtonRunDash)
              {
-                 if (dashVR.GetStateDown(SteamVR_Input_Sources.LeftHand))  // (InputManager.GetButtonDown("Run"))
+                 if (dashVR.GetStateDown(SteamVR_Input_Sources.RightHand))  // (InputManager.GetButtonDown("Run"))
                  {
                      dashPressTime = Time.time;
                      if (onGround && !crouching)
                          runPressTime = Time.time;
                  }
-                 if (dashVR.GetState(SteamVR_Input_Sources.LeftHand)) // (InputManager.GetButton("Run"))
+                 if (dashVR.GetState(SteamVR_Input_Sources.RightHand)) // (InputManager.GetButton("Run"))
                  {
                      if (onGround && !crouching && runPressTime > 0 && Time.time >= runPressTime + buttonPressTime)
                      {
@@ -237,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
                          dashPressTime = -1f;
                      }
                  }
-                 if (dashVR.GetStateUp(SteamVR_Input_Sources.LeftHand) && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)   // (InputManager.GetButtonUp("Dash") && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
+                 if (dashVR.GetStateUp(SteamVR_Input_Sources.RightHand) && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)   // (InputManager.GetButtonUp("Dash") && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
                  {
                      if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
                      {
@@ -255,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
              }
              else
              {
-                 if (dashVR.GetStateDown(SteamVR_Input_Sources.LeftHand) && onGround && moving && !crouching) // InputManager.GetButtonDown("Run")
+                 if (dashVR.GetStateDown(SteamVR_Input_Sources.RightHand) && onGround && moving && !crouching) // InputManager.GetButtonDown("Run")
                  {
                      running = !running;
                      if (sliding)
@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
                      }
                  }
           
-                 if (dashVR.GetStateDown(SteamVR_Input_Sources.LeftHand)) // InputManager.GetButtonDown("Dash")
+                 if (dashVR.GetStateDown(SteamVR_Input_Sources.RightHand)) // InputManager.GetButtonDown("Dash")
                  {
                      if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
                      {

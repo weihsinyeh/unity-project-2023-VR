@@ -48,5 +48,13 @@ namespace Valve.VR
                 return SteamVR_Actions.movement_Crouch;
             }
         }
+        
+        public virtual SteamVR_Action_Boolean Fire
+        {
+            get
+            {
+                return SteamVR_Actions.movement_Fire;
+            }
+        }
     }
 }

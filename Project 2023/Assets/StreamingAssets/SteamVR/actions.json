@@ -105,6 +105,10 @@
     {
       "name": "/actions/Movement/in/Crouch",
       "type": "boolean"
+    },
+    {
+      "name": "/actions/Movement/in/Fire",
+      "type": "boolean"
     }
   ],
   "action_sets": [
@@ -207,7 +211,8 @@
       "/actions/Movement/in/Move": "Move",
       "/actions/Movement/in/Jump": "Jump",
       "/actions/Movement/in/Dash": "Dash",
-      "/actions/Movement/in/Crouch": "Crouch"
+      "/actions/Movement/in/Crouch": "Crouch",
+      "/actions/Movement/in/Fire": "Fire"
     }
   ]
 }

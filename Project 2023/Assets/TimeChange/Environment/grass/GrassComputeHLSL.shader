@@ -1,4 +1,4 @@
-Shader "Custom/GrassComputeHLSL"
+﻿Shader "Custom/GrassComputeHLSL"
 {
 	Properties
 	{
@@ -12,6 +12,8 @@ Shader "Custom/GrassComputeHLSL"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
+
 
 // This describes a vertex on the generated mesh
 struct DrawVertex
@@ -19,6 +21,8 @@ struct DrawVertex
 		float3 positionWS; // The position in world space
 		float2 uv;
 		float3 diffuseColor;
+
+		//UNITY_VERTEX_INPUT_INSTANCE_ID
 	};
 
 	// A triangle on the generated mesh
@@ -39,6 +43,7 @@ struct DrawVertex
 		float3 normalWS : TEXCOORD2;   // Normal vector in world space
 		float3 diffuseColor : COLOR;
 		float fogFactor : TEXCOORD5;
+		//UNITY_VERTEX_OUTPUT_STEREO //Insert  
 	};
 
 	float4 _TopTint;
@@ -52,18 +57,27 @@ struct DrawVertex
 	// ----------------------------------------
 
 	// Vertex function
+#if defined(UNITY_COMPILER_HLSL)
+#define UNITY_INITIALIZE_OUTPUT(type,name) name = (type)0;
+#else
+#define UNITY_INITIALIZE_OUTPUT(type,name)
+#endif
 
 	// -- retrieve data generated from compute shader
 	v2f vert(uint vertexID : SV_VertexID)
 	{
 		// Initialize the output struct
-		v2f output = (v2f)0;
+		v2f output;// = (v2f)0;
 
 		// Get the vertex from the buffer
 		// Since the buffer is structured in triangles, we need to divide the vertexID by three
 		// to get the triangle, and then modulo by 3 to get the vertex on the triangle
 		DrawTriangle tri = _DrawTriangles[vertexID / 3];
 		DrawVertex input = tri.vertices[vertexID % 3];
+
+		//UNITY_SETUP_INSTANCE_ID(input); //Insert
+		//UNITY_INITIALIZE_OUTPUT(v2f, output); //Insert
+		//UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output); //Insert
 
 		output.positionCS = TransformWorldToHClip(input.positionWS);
 		output.positionWS = input.positionWS;
@@ -85,6 +99,7 @@ struct DrawVertex
 
 	half4 frag(v2f i) : SV_Target
 	{
+
 		// For Shadow Caster Pass
 		#ifdef SHADERPASS_SHADOWCASTER
 			return 0;
@@ -161,12 +176,14 @@ struct DrawVertex
 
 		SubShader {
 		// UniversalPipeline needed to have this render in URP
-		Tags{ "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True" }
+		Tags{ "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True" "Stereo" = "Instanced" }
 
 			// Forward Lit Pass
 			Pass
 		{
 			Name "ForwardLit"
+
+
 			Tags { "LightMode" = "UniversalForward" }
 			Cull Off // No culling since the grass must be double sided
 
@@ -177,13 +194,13 @@ struct DrawVertex
 			#pragma target 5.0
 
 			// Lighting and shadow keywords
-			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
-			#pragma multi_compile _ _ADDITIONAL_LIGHTS
-			#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
-			#pragma multi_compile _ _SHADOWS_SOFT
-			#pragma multi_compile_fog
-			#pragma shader_feature BLEND
+		  	#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+		  	#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+		  	#pragma multi_compile _ _ADDITIONAL_LIGHTS
+		  	#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
+		  	#pragma multi_compile _ _SHADOWS_SOFT
+		  	#pragma multi_compile_fog
+		  	#pragma shader_feature BLEND
 			// Register our functions
 			#pragma vertex vert
 			#pragma fragment frag
@@ -199,7 +216,6 @@ struct DrawVertex
 			ZWrite On
 			ZTest LEqual
 			Cull Off
-
 			HLSLPROGRAM
 			// Signal this shader requires geometry function support
 			#pragma prefer_hlslcc gles
