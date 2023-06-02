@@ -25,7 +25,7 @@ public class PickWeaponVr : MonoBehaviour
 
             GrabTypes grabType = hand.GetGrabStarting();
             //bool isGrabEnding = hand.IsGrabEnding(gameObject);
-            if (interactable.attachedToHand == null && grabType == GrabTypes.Pinch)
+            if (interactable.attachedToHand == null && grabType == GrabTypes.Grip)
             {
                 hand.AttachObject(gameObject, grabType, attachmentFlags, attachmentOffset);
                 hand.HoverLock(interactable);           //锁定手部对物体的悬停（hover），防止其他物体的悬停操作
