@@ -17,7 +17,7 @@ Shader "Custom/StereoRenderShader"
 	{
 		Tags{ "RenderType" = "Opaque" }
 
-		//Cull OFF
+		Cull OFF
 
 		CGPROGRAM
 		#pragma surface surf Standard 
