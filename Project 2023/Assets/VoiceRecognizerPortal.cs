@@ -8,6 +8,7 @@ using System.Linq;
 public class VoiceRecognizerPortal : MonoBehaviour
 {
     public ControlUI controlUI; // In portal game
+    public PortalPlacement portalPlacement;
     KeywordRecognizer keywordRecognizer;
     Dictionary<string,Action> keywords = new Dictionary<string, Action>();
 
@@ -17,6 +18,8 @@ public class VoiceRecognizerPortal : MonoBehaviour
         //Create keywords for keyword recognizer
         keywords.Add("Start", controlUI.startGame);
         keywords.Add("Show", controlUI.showMap);
+        keywords.Add("In", portalPlacement.PlaceIn);
+        keywords.Add("Out", portalPlacement.PlaceOut);
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray(),ConfidenceLevel.Low);
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();

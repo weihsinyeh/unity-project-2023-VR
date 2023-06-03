@@ -36,6 +36,7 @@ public class PortalPlacement : MonoBehaviour
         PortalIn.text = portalInNum.ToString();
         PortalOut.text = portalOutNum.ToString();
     }
+    /*
     private void Update()
     {
         if(PortalInVR.GetStateDown(SteamVR_Input_Sources.Any) && portalInNum > 0)//InputManager.GetButtonDown("PortalIn")
@@ -60,7 +61,36 @@ public class PortalPlacement : MonoBehaviour
         PortalIn.text = portalInNum.ToString();
         PortalOut.text = portalOutNum.ToString();
     }
-
+    */
+    public void PlaceIn()
+    {
+        if (portalInNum > 0)//InputManager.GetButtonDown("PortalIn")
+        {
+            FirePortal(0, transform.position, transform.forward, 500.0f);
+            if (wasPlaced)
+            {
+                portalInNum -= 1;
+                wasPlaced = false;
+            }
+        }
+    }
+    public void PlaceOut() { 
+        if (portalOutNum > 0)
+        {
+            FirePortal(1, transform.position, transform.forward, 500.0f);
+            if (wasPlaced)
+            {
+                portalOutNum -= 1;
+                wasPlaced = false;
+            }
+            else
+            {
+                Debug.Log("Can't place portal");
+            }
+        }
+        PortalIn.text = portalInNum.ToString();
+        PortalOut.text = portalOutNum.ToString();
+    }
     private void FirePortal(int portalID, Vector3 pos, Vector3 dir, float distance)
     {
         RaycastHit hit;
