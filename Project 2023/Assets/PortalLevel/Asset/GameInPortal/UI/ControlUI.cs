@@ -8,15 +8,24 @@ public class ControlUI : MonoBehaviour
     public GameObject menu;
     public GameObject hint;
     bool first = true;
+    bool mapIsShow = false;
     // Update is called once per frame
-    void Update()
+    public void startGame() { 
+        first = false;
+        menu.SetActive(false);
+    }
+    public void showMap()
     {
-        if (first && InputManager.GetButtonDown("Next"))
+        if (mapIsShow == false)
         {
-            first = false;
-            menu.SetActive(false);
             hint.SetActive(true);
             map.SetActive(true);
         }
+        else
+        {
+            hint.SetActive(false);
+            map.SetActive(false);
+        }
+        mapIsShow = !mapIsShow;
     }
 }

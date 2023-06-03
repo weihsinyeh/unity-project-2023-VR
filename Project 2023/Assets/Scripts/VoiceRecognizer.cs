@@ -8,7 +8,7 @@ using System.Linq;
 public class VoiceRecognizer : MonoBehaviour
 {
     public DesaturateController dc;
-
+    //public ControlUI controlUI; // In portal game
     KeywordRecognizer keywordRecognizer;
     Dictionary<string,Action> keywords = new Dictionary<string, Action>();
 

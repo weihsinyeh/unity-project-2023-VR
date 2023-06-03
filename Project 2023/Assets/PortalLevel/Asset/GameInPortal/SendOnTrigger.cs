@@ -34,9 +34,11 @@ public class SendOnTrigger : MonoBehaviour
     void OnTriggerEnter(Collider other){
         Quaternion goal;
         if(other.gameObject.tag == "Player"){
+            Debug.Log("HI_Player");
             if(currentState == State.Portal)
             {
                 FindObjectOfType<PortalPlaceSet>().UpdateState(state);
+                Debug.Log("Change State");
             }
             else{
             if( coolTime > 0) return;

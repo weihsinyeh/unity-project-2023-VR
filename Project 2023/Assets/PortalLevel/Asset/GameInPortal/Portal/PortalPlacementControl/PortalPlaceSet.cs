@@ -35,6 +35,7 @@ public class PortalPlaceSet : MonoBehaviour
     }
     public void changePosition(){
         if(state == 0){ // player in level 1
+            Debug.Log("Change Portal Position");
             timer.SetActive(false);
             FixedPortalOut.transform.position = _B.position;
             FixedPortalOut.transform.rotation = _B.rotation;
@@ -44,6 +45,7 @@ public class PortalPlaceSet : MonoBehaviour
             timer.GetComponent<TimerControl>().CountStart();
             if(first == true)
             {
+                Debug.Log("Change Portal Position 3333333333333333333333");
                 FixedPortalOut.transform.position = _C.position;
                 FixedPortalOut.transform.rotation = _C.rotation;
             }
