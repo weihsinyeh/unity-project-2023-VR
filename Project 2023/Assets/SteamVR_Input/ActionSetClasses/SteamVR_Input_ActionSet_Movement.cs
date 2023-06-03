@@ -56,5 +56,29 @@ namespace Valve.VR
                 return SteamVR_Actions.movement_Fire;
             }
         }
+        
+        public virtual SteamVR_Action_Boolean R_TouchPadTouch
+        {
+            get
+            {
+                return SteamVR_Actions.movement_R_TouchPadTouch;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vector2 R_TouchPadPos
+        {
+            get
+            {
+                return SteamVR_Actions.movement_R_TouchPadPos;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean R_TouchPadPress
+        {
+            get
+            {
+                return SteamVR_Actions.movement_R_TouchPadPress;
+            }
+        }
     }
 }

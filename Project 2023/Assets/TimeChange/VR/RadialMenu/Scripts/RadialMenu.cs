@@ -14,6 +14,9 @@ public class RadialMenu : MonoBehaviour
     public RadialSection bottom = null;
     public RadialSection left = null;
 
+    [Header("parameters")]
+    public int index;
+    public PlayerMovement pm;
 
     private Vector2 touchPosition = Vector2.zero;
     private List<RadialSection> radialSections = null;
@@ -57,12 +60,16 @@ public class RadialMenu : MonoBehaviour
 
     private void Update()
     {
-        Vector2 dir = Vector2.zero + touchPosition;
-        float rotation = GetDegree(dir);
+        if (!pm.swinging)
+        {
+            Vector2 dir = Vector2.zero + touchPosition;
+            float rotation = GetDegree(dir);
 
-        SetCursorPos();
-        SetSelectionRotation(rotation);
-        SetSelectedEvent(rotation);
+            SetCursorPos();
+            SetSelectionRotation(rotation);
+            SetSelectedEvent(rotation);
+        }
+
     }
 
     private float GetDegree(Vector2 dir)
@@ -99,7 +106,7 @@ public class RadialMenu : MonoBehaviour
 
     private void SetSelectedEvent(float currentRotation)
     {
-        int index = GetNearestIncrement(currentRotation);
+        index = GetNearestIncrement(currentRotation);
 
         if (index == 4)
             index = 0;

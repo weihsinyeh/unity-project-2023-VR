@@ -289,6 +289,21 @@
                },
                "mode" : "trigger",
                "path" : "/user/hand/right/input/trigger"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/movement/in/r_touchpadpress"
+                  },
+                  "position" : {
+                     "output" : "/actions/movement/in/r_touchpadpos"
+                  },
+                  "touch" : {
+                     "output" : "/actions/movement/in/r_touchpadtouch"
+                  }
+               },
+               "mode" : "trackpad",
+               "path" : "/user/hand/right/input/trackpad"
             }
          ]
       },

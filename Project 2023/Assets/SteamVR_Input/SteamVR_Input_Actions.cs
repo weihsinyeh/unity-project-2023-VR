@@ -69,6 +69,12 @@ namespace Valve.VR
         
         private static SteamVR_Action_Boolean p_movement_Fire;
         
+        private static SteamVR_Action_Boolean p_movement_R_TouchPadTouch;
+        
+        private static SteamVR_Action_Vector2 p_movement_R_TouchPadPos;
+        
+        private static SteamVR_Action_Boolean p_movement_R_TouchPadPress;
+        
         public static SteamVR_Action_Boolean default_InteractUI
         {
             get
@@ -277,6 +283,30 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Boolean movement_R_TouchPadTouch
+        {
+            get
+            {
+                return SteamVR_Actions.p_movement_R_TouchPadTouch.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Vector2 movement_R_TouchPadPos
+        {
+            get
+            {
+                return SteamVR_Actions.p_movement_R_TouchPadPos.GetCopy<SteamVR_Action_Vector2>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean movement_R_TouchPadPress
+        {
+            get
+            {
+                return SteamVR_Actions.p_movement_R_TouchPadPress.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
         private static void InitializeActionArrays()
         {
             Valve.VR.SteamVR_Input.actions = new Valve.VR.SteamVR_Action[] {
@@ -305,7 +335,10 @@ namespace Valve.VR
                     SteamVR_Actions.movement_Jump,
                     SteamVR_Actions.movement_Dash,
                     SteamVR_Actions.movement_Crouch,
-                    SteamVR_Actions.movement_Fire};
+                    SteamVR_Actions.movement_Fire,
+                    SteamVR_Actions.movement_R_TouchPadTouch,
+                    SteamVR_Actions.movement_R_TouchPadPos,
+                    SteamVR_Actions.movement_R_TouchPadPress};
             Valve.VR.SteamVR_Input.actionsIn = new Valve.VR.ISteamVR_Action_In[] {
                     SteamVR_Actions.default_InteractUI,
                     SteamVR_Actions.default_Teleport,
@@ -331,7 +364,10 @@ namespace Valve.VR
                     SteamVR_Actions.movement_Jump,
                     SteamVR_Actions.movement_Dash,
                     SteamVR_Actions.movement_Crouch,
-                    SteamVR_Actions.movement_Fire};
+                    SteamVR_Actions.movement_Fire,
+                    SteamVR_Actions.movement_R_TouchPadTouch,
+                    SteamVR_Actions.movement_R_TouchPadPos,
+                    SteamVR_Actions.movement_R_TouchPadPress};
             Valve.VR.SteamVR_Input.actionsOut = new Valve.VR.ISteamVR_Action_Out[] {
                     SteamVR_Actions.default_Haptic};
             Valve.VR.SteamVR_Input.actionsVibration = new Valve.VR.SteamVR_Action_Vibration[] {
@@ -355,14 +391,17 @@ namespace Valve.VR
                     SteamVR_Actions.movement_Jump,
                     SteamVR_Actions.movement_Dash,
                     SteamVR_Actions.movement_Crouch,
-                    SteamVR_Actions.movement_Fire};
+                    SteamVR_Actions.movement_Fire,
+                    SteamVR_Actions.movement_R_TouchPadTouch,
+                    SteamVR_Actions.movement_R_TouchPadPress};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[] {
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.buggy_Throttle};
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.buggy_Steering,
-                    SteamVR_Actions.movement_Move};
+                    SteamVR_Actions.movement_Move,
+                    SteamVR_Actions.movement_R_TouchPadPos};
             Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[0];
             Valve.VR.SteamVR_Input.actionsSkeleton = new Valve.VR.SteamVR_Action_Skeleton[] {
                     SteamVR_Actions.default_SkeletonLeftHand,
@@ -388,7 +427,10 @@ namespace Valve.VR
                     SteamVR_Actions.movement_Jump,
                     SteamVR_Actions.movement_Dash,
                     SteamVR_Actions.movement_Crouch,
-                    SteamVR_Actions.movement_Fire};
+                    SteamVR_Actions.movement_Fire,
+                    SteamVR_Actions.movement_R_TouchPadTouch,
+                    SteamVR_Actions.movement_R_TouchPadPos,
+                    SteamVR_Actions.movement_R_TouchPadPress};
         }
         
         private static void PreInitActions()
@@ -419,6 +461,9 @@ namespace Valve.VR
             SteamVR_Actions.p_movement_Dash = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Movement/in/Dash")));
             SteamVR_Actions.p_movement_Crouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Movement/in/Crouch")));
             SteamVR_Actions.p_movement_Fire = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Movement/in/Fire")));
+            SteamVR_Actions.p_movement_R_TouchPadTouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Movement/in/R_TouchPadTouch")));
+            SteamVR_Actions.p_movement_R_TouchPadPos = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/Movement/in/R_TouchPadPos")));
+            SteamVR_Actions.p_movement_R_TouchPadPress = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Movement/in/R_TouchPadPress")));
         }
     }
 }

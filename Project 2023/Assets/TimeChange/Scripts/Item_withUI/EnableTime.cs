@@ -6,29 +6,29 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
 using Valve.VR;
-using Valve.VR.InteractionSystem;
 
 
 public class EnableTime : MonoBehaviour
 {
-    private Interactable interactable;
     private TimeShiftingController timeShiftingController;
     private DesaturateController desaturateController;
     public AudioManager audioManager;
+    public bool Picked = false;
+
+
     [Header("PickUpDialogue")]
     public CanvasGroup PickUpCanvas;
     public float fadeTime = 0.5f;
-    public string Text = "«ö¤UFÁä¬B°_";
+    public string Text = "grip your right controller to pick";
 
     [Header("ItemDialogue")]
-    public ItemDialogueShow IDS;
-    [Space]
-    public string Name;  //setting the item
-    public ItemManager ItemM;
+    public CanvasGroup ItemDialogue;
+
 
     private TMP_Text Canvas_text;
 
-    private bool Picked = false;
+
+    private bool TimeBoxDestroy = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,16 +37,18 @@ public class EnableTime : MonoBehaviour
         timeShiftingController = GameObject.FindGameObjectWithTag("TimeManager").GetComponent<TimeShiftingController>();
         Canvas_text = PickUpCanvas.GetComponentInChildren<TMP_Text>();
 
-
-        interactable = GetComponent<Interactable>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 3)
         {
+            if (!Picked)
+            {
             Canvas_text.text = Text;
-            PanelFadeIn();
+            PanelFadeIn(PickUpCanvas);
+            }
+
         }
 
     }
@@ -55,74 +57,43 @@ public class EnableTime : MonoBehaviour
     {
         if (other.gameObject.layer == 3)
         {
-            //  if (InputManager.GetButtonDown("Pick"))
-            //  {
-            //      audioManager.PlayAudio("Pick");
-            //      desaturateController.CanStop = true;
-            //      timeShiftingController.CanChange = true;
-            //      IDS.SetItemDialogue(Name);
-            //      PanelFadeOut();
-            //
-            //      IDS.show = true;
-            //      this.gameObject.SetActive(false);
-            //  }
-            if (Picked)
+            if (Picked && !TimeBoxDestroy)
             {
+                PanelFadeOut(PickUpCanvas);
                 audioManager.PlayAudio("Pick");
                 desaturateController.CanStop = true;
                 timeShiftingController.CanChange = true;
-                PanelFadeOut();
-                Debug.Log("Pick");
-                Destroy(this.gameObject);
+                PanelFadeIn(ItemDialogue);
 
-
-
-              //  IDS.SetItemDialogue(Name);
-              //  PanelFadeOut();
-              //  IDS.show = true;
-              //
-              //  Debug.Log("Pick");
-              //  Destroy(this.gameObject);
+                Destroy(this.transform.GetChild(0).gameObject);
+                TimeBoxDestroy = true;
             }
-
-
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        PanelFadeOut();
-    }
-
-    private void PanelFadeIn()
-    {
-        PickUpCanvas.alpha = 0f;
-        PickUpCanvas.DOFade(1f, fadeTime);
-    }
-
-    private void PanelFadeOut()
-    {
-        PickUpCanvas.alpha = 1f;
-        PickUpCanvas.DOFade(0f, fadeTime);
-    }
-
-    private void HandHoverUpdate(Hand hand)
-    {
-        GrabTypes grabType = hand.GetGrabStarting();
-        // bool isGrabEnding = hand.IsGrabEnding(gameObject);
-
-
-        if (interactable.attachedToHand == null && grabType !=GrabTypes.None)
+        if (other.gameObject.layer == 3)
         {
-            Picked = true;
-          //  hand.AttachObject(gameObject, grabType);
-          //  hand.HoverLock(interactable);
-          //  hand.HideGrabHint();
+            if (!Picked)
+                PanelFadeOut(PickUpCanvas);
+            else
+                PanelFadeOut(ItemDialogue);
         }
-        //else if (isGrabEnding)
-        //{
-        //    hand.DetachObject(gameObject);
-        //    hand.HoverUnlock(interactable);
-        //}
+
     }
+
+    private void PanelFadeIn(CanvasGroup canvas)
+    {
+        canvas.alpha = 0f;
+        canvas.DOFade(1f, fadeTime);
+    }
+
+    private void PanelFadeOut(CanvasGroup canvas)
+    {
+        canvas.alpha = 1f;
+        canvas.DOFade(0f, fadeTime);
+    }
+
+
 
 }

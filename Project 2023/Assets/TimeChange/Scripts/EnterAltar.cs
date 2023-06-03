@@ -4,20 +4,20 @@ using UnityEngine;
 using Luminosity.IO;
 using DG.Tweening;
 using TMPro;
+using Valve.VR;
 
 public class EnterAltar : MonoBehaviour
 {
     public CanvasGroup BlackCanvas;
 
-    [Header("Particles")]
-  //  public GameObject InsideParticles;
-    public ParticleSystem Side;
- //   public ParticleSystem runningParticle;
+    [Header("Input")]
+    public SteamVR_Action_Boolean PickVR;
+    //public ParticleSystem Side;
+
     [Space]
     [Header("Weapon")]
-    public GameObject PickBlue;
-    public Transform weaponHandler;
-    public Crossbow RocketLauncher;
+    public GameObject Rocket;
+    public WeaponHandler weaponHandler;
     public GameObject FireBullet;
     public Material RocketFireMat;
     public GameObject timeline;
@@ -36,7 +36,6 @@ public class EnterAltar : MonoBehaviour
 
     private void Start()
     {
-        PickBlue.SetActive(false);
         Canvas_text = PickUpCanvas.GetComponentInChildren<TMP_Text>();
     }
 
@@ -52,12 +51,11 @@ public class EnterAltar : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 3 &&!enter)
+        if(other.gameObject.layer == 3 &&!enter) //Player enter Altar
         {
-            //       InsideParticles.SetActive(true);
             enter = true;
  
-            Canvas_text.text = "press F to put the RocketLauncher at the middle of Altar";
+            Canvas_text.text = "press F to put the RocketLauncher at the middle of Altar";      //tell the player to put the rocket
             PanelFadeIn(PickUpCanvas, fadeTime);
         }
     }
@@ -66,16 +64,11 @@ public class EnterAltar : MonoBehaviour
     {
         if(enter && other.gameObject.layer == 3)
         {
-            if (InputManager.GetButtonDown("Pick") && !put)
-            {           //     EnableItem.GetComponent<PickUp>().enabled = false;
-           //     EnableItem.GetComponent<SphereCollider>().enabled = false;
-
-                PickBlue.SetActive(true);
-                RocketLauncher.gameObject.SetActive(false);
-                RocketLauncher.transform.SetParent(weaponHandler.transform.parent);
-
+            if (weaponHandler.hand.currentAttachedObject == Rocket &&  PickVR.GetStateDown(SteamVR_Input_Sources.RightHand) && !put)
+            {           
+                weaponHandler.ChangeToHand();
+                weaponHandler.weaponList.Remove(Rocket);
                 Canvas_text.text = "Danger! Please get away from the Altar";
-                weaponHandler.GetComponent<WeaponSwitching>().addWeapon = true;
                 put = true;
             }
 
@@ -92,41 +85,16 @@ public class EnterAltar : MonoBehaviour
             if (put)
             {
                 PanelFadeIn(BlackCanvas, 1f);
-            //    CircleMat = InsideParticles.GetComponent<Renderer>().material.color;
-            //    var emission = Side.emission;
-            //    emission.enabled = false;
-            //    runningParticle.gameObject.SetActive(true);
-            //    Side.GetComponent<SphereCollider>().enabled = true;
-            //    StartCoroutine(ExampleCoroutine());
             }
 
 
         }
     }
-
-  //  IEnumerator ExampleCoroutine()
-  //  {
-  //      CircleMat.a = Mathf.Lerp(CircleMat.a,0,0.5f);
-  //
-  //      //yield on a new YieldInstruction that waits for 5 seconds.
-  //      yield return new WaitForSeconds(9);
-  //      DestroyTheAltar();
-  //  }
-  //
       public void DestroyTheAltar()
       {
-         RocketLauncher.ArrowPrefab = FireBullet;
-         RocketLauncher.GetComponentInChildren<Renderer>().material = RocketFireMat;
-         
          PanelFadeOut(BlackCanvas, 1f);
-        Destroy(timeline);
+         Destroy(timeline);
          Destroy(this.gameObject);
-        //   EnableItem.GetComponent<SphereCollider>().enabled = true;     //   InsideParticles.SetActive(false);
-        //   EnableItem.GetComponent<PickUp>().enabled = true;
-        //   EnableItem.GetComponentInChildren<Renderer>().material = RocketFireMat;
-        //   Side.GetComponent<SphereCollider>().enabled = false;
-        //   var emission = Side.emission;
-        //   emission.enabled = true;
     }
 
 
@@ -139,16 +107,17 @@ public class EnterAltar : MonoBehaviour
 
     private void PanelFadeOut(CanvasGroup canvasGroup, float fadeTime)
     {
+        Rocket.GetComponent<Rigidbody>().useGravity = false;
+        Rocket.GetComponent<Rigidbody>().isKinematic = true;
         canvasGroup.alpha = 1f;
         canvasGroup.DOFade(0f, fadeTime);
     }
 
     public void changeRocket()
     {
-        PickBlue.GetComponentInChildren<Renderer>().material = RocketFireMat;
-        PickBlue.GetComponent<PickUp>().enabled = true;
-        PickBlue.GetComponent<SphereCollider>().enabled = true;
-
+        Rocket.GetComponentInChildren<Renderer>().material = RocketFireMat;
+        Rocket.GetComponent<PickWeaponVr>().enabled = true;
+        Rocket.GetComponent<Crossbow>().ArrowPrefab = FireBullet;
     }
 
 

@@ -109,6 +109,18 @@
     {
       "name": "/actions/Movement/in/Fire",
       "type": "boolean"
+    },
+    {
+      "name": "/actions/Movement/in/R_TouchPadTouch",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/Movement/in/R_TouchPadPos",
+      "type": "vector2"
+    },
+    {
+      "name": "/actions/Movement/in/R_TouchPadPress",
+      "type": "boolean"
     }
   ],
   "action_sets": [
@@ -212,7 +224,10 @@
       "/actions/Movement/in/Jump": "Jump",
       "/actions/Movement/in/Dash": "Dash",
       "/actions/Movement/in/Crouch": "Crouch",
-      "/actions/Movement/in/Fire": "Fire"
+      "/actions/Movement/in/Fire": "Fire",
+      "/actions/Movement/in/R_TouchPadTouch": "R_TouchPadTouch",
+      "/actions/Movement/in/R_TouchPadPress": "R_TouchPadPress",
+      "/actions/Movement/in/R_TouchPadPos": "R_TouchPadPos"
     }
   ]
 }
