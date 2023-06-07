@@ -16,7 +16,6 @@ public class RadialMenu : MonoBehaviour
 
     [Header("parameters")]
     public int index;
-    public PlayerMovement pm;
 
     private Vector2 touchPosition = Vector2.zero;
     private List<RadialSection> radialSections = null;
@@ -60,15 +59,12 @@ public class RadialMenu : MonoBehaviour
 
     private void Update()
     {
-        if (!pm.swinging)
-        {
             Vector2 dir = Vector2.zero + touchPosition;
             float rotation = GetDegree(dir);
 
             SetCursorPos();
             SetSelectionRotation(rotation);
             SetSelectedEvent(rotation);
-        }
 
     }
 

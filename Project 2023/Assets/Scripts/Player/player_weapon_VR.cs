@@ -59,48 +59,48 @@ public class player_weapon_VR : MonoBehaviour
         slice(other.gameObject, slicePlane, transformedNormal);
     }
 
-    void SwapeSword() {
-        float xAxis = transform.position.x;//InputManager.mousePosition.x;
-        float yAxis = transform.position.y;//InputManager.mousePosition.y;
-        float zAxis = 0.4f;
-        if(SlashVR.GetState(SteamVR_Input_Sources.RightHand))//InputManager.GetButton("Slash")
-        {
-
-            Debug.Log("Slash");
-           // transform.localPosition = new Vector3(Mathf.Min(Mathf.Max(xAxis, 0), Screen.width) / Screen.width - 0.5f, Mathf.Min(Mathf.Max(yAxis, 0), Screen.height) / Screen.height - 0.5f, zAxis);
-            if(!swapeDone){
-                float vx = xAxis - prevX, vy = yAxis - prevY;
-                float v = Mathf.Sqrt(vx * vx + vy * vy) * Time.deltaTime;
-                Debug.Log("Velocity: " + v);
-                if(v>0.001f){
-                    sweapNormal = Vector3.Cross(new Vector3( 0, 1, 0), new Vector3( 0, 0, 1)).normalized;
-                    transform.localEulerAngles = new Vector3(0, 0, 0);
-                    desDeg = Quaternion.AngleAxis(-179, sweapNormal) * transform.localRotation;
-                    sweaping = true;
-                }else if(sweaping) swapeDone = true;
-                
-            }
-        }
-        if(swapeDone) {
-            //Debug.DrawRay(transform.position, sweapNormal, Color.blue);
-            //Debug.Log(desDeg.eulerAngles);
-            if(transform.localRotation != desDeg){
-                transform.localRotation = Quaternion.Slerp(transform.localRotation, desDeg, 25f * Time.deltaTime);
-                particle.SetActive(true);
-            }else{
-                swapeDone = false;
-                sweaping = false;
-                particle.SetActive(false);
-            }
-        }
-        else if(!SlashVR.GetState(SteamVR_Input_Sources.RightHand))//InputManager.GetButton("Slash")
-        {
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, new Vector3(0.3f, -0.1f, zAxis),ref moveVel, 0.1f);
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(0f, 0f, 0f), 6f * Time.deltaTime);
-        }
-        prevX = xAxis;
-        prevY = yAxis;
-    }
+   // void SwapeSword() {
+   //     float xAxis = transform.position.x;//InputManager.mousePosition.x;
+   //     float yAxis = transform.position.y;//InputManager.mousePosition.y;
+   //     float zAxis = 0.4f;
+   //     if(SlashVR.GetState(SteamVR_Input_Sources.RightHand))//InputManager.GetButton("Slash")
+   //     {
+   //
+   //         Debug.Log("Slash");
+   //        // transform.localPosition = new Vector3(Mathf.Min(Mathf.Max(xAxis, 0), Screen.width) / Screen.width - 0.5f, Mathf.Min(Mathf.Max(yAxis, 0), Screen.height) / //Screen.height - 0.5f, zAxis);
+   //         if(!swapeDone){
+   //             float vx = xAxis - prevX, vy = yAxis - prevY;
+   //             float v = Mathf.Sqrt(vx * vx + vy * vy) * Time.deltaTime;
+   //             Debug.Log("Velocity: " + v);
+   //             if(v>0.001f){
+   //                 sweapNormal = Vector3.Cross(new Vector3( 0, 1, 0), new Vector3( 0, 0, 1)).normalized;
+   //                 transform.localEulerAngles = new Vector3(0, 0, 0);
+   //                 desDeg = Quaternion.AngleAxis(-179, sweapNormal) * transform.localRotation;
+   //                 sweaping = true;
+   //             }else if(sweaping) swapeDone = true;
+   //             
+   //         }
+   //     }
+   //     if(swapeDone) {
+   //         //Debug.DrawRay(transform.position, sweapNormal, Color.blue);
+   //         //Debug.Log(desDeg.eulerAngles);
+   //         if(transform.localRotation != desDeg){
+   //             transform.localRotation = Quaternion.Slerp(transform.localRotation, desDeg, 25f * Time.deltaTime);
+   //             particle.SetActive(true);
+   //         }else{
+   //             swapeDone = false;
+   //             sweaping = false;
+   //             particle.SetActive(false);
+   //         }
+   //     }
+   //     else if(!SlashVR.GetState(SteamVR_Input_Sources.RightHand))//InputManager.GetButton("Slash")
+   //     {
+   //         transform.localPosition = Vector3.SmoothDamp(transform.localPosition, new Vector3(0.3f, -0.1f, zAxis),ref moveVel, 0.1f);
+   //         transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(0f, 0f, 0f), 6f * Time.deltaTime);
+   //     }
+   //     prevX = xAxis;
+   //     prevY = yAxis;
+   // }
     
     //要切割模型的話, 需要對最基本的面(三角形)進行切割那我們需要求的其邊上跟平面的 intersection
     private Vector3 getIntersectionVertexOnPlane(Plane plane, Vector3 v1, Vector3 v2, out float dis){
@@ -552,6 +552,6 @@ public class player_weapon_VR : MonoBehaviour
       //  pos.z   = 0.98f;
       //  pos     = Camera.main.ScreenToWorldPoint(pos);
         
-        SwapeSword();
+        //SwapeSword();
     }
 }

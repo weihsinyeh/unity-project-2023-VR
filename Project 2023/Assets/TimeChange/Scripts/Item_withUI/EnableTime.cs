@@ -15,7 +15,6 @@ public class EnableTime : MonoBehaviour
     public AudioManager audioManager;
     public bool Picked = false;
 
-
     [Header("PickUpDialogue")]
     public CanvasGroup PickUpCanvas;
     public float fadeTime = 0.5f;
@@ -24,9 +23,7 @@ public class EnableTime : MonoBehaviour
     [Header("ItemDialogue")]
     public CanvasGroup ItemDialogue;
 
-
     private TMP_Text Canvas_text;
-
 
     private bool TimeBoxDestroy = false;
 

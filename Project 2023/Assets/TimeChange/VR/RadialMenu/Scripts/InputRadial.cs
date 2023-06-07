@@ -12,6 +12,7 @@ public class InputRadial : MonoBehaviour
 
     [Header("Scene Objects")]
     public RadialMenu radialMenu = null;
+    public PlayerMovement pm;
 
     private void Awake()
     {
@@ -33,17 +34,20 @@ public class InputRadial : MonoBehaviour
 
     private void Position(SteamVR_Action_Vector2 fromAction, SteamVR_Input_Sources fromSource, Vector2 axis, Vector2 delta)
     {
+        if(!pm.swinging)
         radialMenu.SetTouchPos(axis);
     }
 
     private void Touch(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource, bool newState)
     {
-        radialMenu.Show(newState);
+        if (!pm.swinging)
+            radialMenu.Show(newState);
     }
 
     private void PressRelease(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
     {
-        radialMenu.ActiveHighlightedSection();
+        if (!pm.swinging)
+            radialMenu.ActiveHighlightedSection();
     }
 
 

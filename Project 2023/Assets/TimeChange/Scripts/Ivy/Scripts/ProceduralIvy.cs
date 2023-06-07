@@ -91,7 +91,7 @@ public class ProceduralIvy : MonoBehaviour {
             }
 
             if (FireVR.GetStateDown(SteamVR_Input_Sources.RightHand))
-            {// InputManager.GetButtonDown("Fire")
+            {
 
                 if (!joint)
                 {
@@ -128,7 +128,6 @@ public class ProceduralIvy : MonoBehaviour {
        Physics.Raycast(gunTip.position, gunTip.forward,                                           //直接瞄準
                            out raycastHit, maxSwingDistance, ignoreLayer);
 
-       // Vector3 realHitPoint;
 
         bool SphereGrab = false;
         if (raycastHit.point != Vector3.zero && sphereCastHit.point != Vector3.zero)           //兩者皆有hit，但判定為sphere: 中心點沒打到tag的物件，但周圍有其中一種
@@ -140,14 +139,13 @@ public class ProceduralIvy : MonoBehaviour {
         {
             predictionHit = raycastHit;
         }
-        //realHitPoint = raycastHit.point;
+
 
         // Option 2 - Indirect (predicted) Hit
         else if (sphereCastHit.point != Vector3.zero)
         {
             predictionHit = sphereCastHit;
         }
-        //realHitPoint = sphereCastHit.point;
 
         // Option 3 - Miss
         else

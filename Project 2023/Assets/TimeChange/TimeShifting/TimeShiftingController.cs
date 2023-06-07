@@ -3,27 +3,20 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
-//using Luminosity.IO;
 using Valve.VR;
 
 public class TimeShiftingController : MonoBehaviour {
+
     public bool ChangeEnvironment = false;
-
-  //  [SerializeField] private UniversalRendererData rendererData = null;
-  //  [SerializeField] private string featureName = null;
-    [SerializeField] private float transitionPeriod = 1;
-
-
+    public bool CanChange;
+    public Camera mycamera;
+    public int PastBool;  //0:present, 1:presentToPast 2:past 3:pastToPresent
+    [Header("Input")]
     public SteamVR_Action_Boolean TimeShift;
-
-    //private bool transitioning;
-    private float startTime;
-  //  ScriptableRendererFeature feature;
+    [Header("Transition")]
     public Material mat;
-
-    // public bool TimeIsStopped;
-
-
+    [SerializeField] private float transitionPeriod = 1;
+    private float startTime;
     //收縮強度
     [Range(0, 0.15f)]
     public float distortFactor = 1.0f;
@@ -31,7 +24,6 @@ public class TimeShiftingController : MonoBehaviour {
     public Vector2 distortCenter = new Vector2(0.5f, 0.5f);
     //噪聲圖
     public Texture NoiseTexture = null;
-    public Camera mycamera;
     //屏幕擾動程度
     [Range(0, 2.0f)]
     public float distortStrength = 1.0f;
@@ -53,11 +45,6 @@ public class TimeShiftingController : MonoBehaviour {
     private int pastlayer;
     private int presentlayer;
     private int playerlayer;
-
-
-    public bool CanChange;
-    public int PastBool;  //0:present, 1:presentToPast 2:past 3:pastToPresent
-
 
     [Header("Environment")]
     public GameObject pastlight;
@@ -81,9 +68,6 @@ public class TimeShiftingController : MonoBehaviour {
         Physics.IgnoreLayerCollision(playerlayer, presentlayer, true);
         PastBool = 2;
 
-    //    feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
-    //    var blitFeature = feature as BlitMaterialFeature;
-    //    mat = blitFeature.Material;
         mat.SetTexture("_NoiseTex", NoiseTexture);
         baseColor = new Color(1, 1, 1, 1);
         CanChange = false;
@@ -92,7 +76,6 @@ public class TimeShiftingController : MonoBehaviour {
     private void Update() {
         if (CanChange)
         {
-            //if (InputManager.GetButtonDown("TimeShift"))
             if(TimeShift.GetStateDown(SteamVR_Input_Sources.LeftHand))
             {
                 StartPassThroughEffect();
